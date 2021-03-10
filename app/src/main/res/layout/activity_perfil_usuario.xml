@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvMensagem"
+            android:id="@+id/tvMensagemPrincipal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -114,7 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.563"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMensagem" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMensagemPrincipal" />
 
         <Switch
             android:id="@+id/swLogado"
