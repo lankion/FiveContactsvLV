@@ -10,11 +10,9 @@
         android:id="@+id/layoutH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#88FCD3C6"
+        android:layout_marginTop="20dp"
+        android:background="#148C74"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,29 +21,30 @@
             android:id="@+id/buscarImg"
             android:layout_width="48dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/lupa"
             app:srcCompat="@drawable/ic_action_buscar"></ImageView>
 
         <EditText
             android:id="@+id/edtBusca"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Seus contatos?"
-            android:textColor="#FF5722"
-            android:textSize="20dp" />
+            android:text="@string/seus_contatos"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#FF5722"
-            android:textSize="18dp"
-            android:textStyle="bold"
+            android:background="#4AD9BC"
             android:onClick="onClickBuscar"
-            android:text="Buscar"
+            android:text="@string/buscar"
             android:textColor="#FFFFFF"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -61,6 +60,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/adicionar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutH"
