@@ -16,4 +16,6 @@
     <string name="criar">Criar</string>
     <string name="usu_rio">Usuário</string>
     <string name="no">Não</string>
+    <string name="modificar">Modificar</string>
+    <string name="alterar_dados">Alterar Dados</string>
 </resources>
