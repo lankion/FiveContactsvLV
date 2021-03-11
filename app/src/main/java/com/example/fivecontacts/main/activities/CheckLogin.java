@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -93,37 +92,29 @@ public class CheckLogin extends AppCompatActivity {
                     //3- Se tudo der certo, resgatar lista de contatos
                     //4- Abrir a Atividade lista de Contatos passando como parametro o objeto User e seus 5 Contatos
 
-                    SharedPreferences temUser = getSharedPreferences("usuarioPadrao", Activity.MODE_PRIVATE);
-                    String loginSalvo = temUser.getString("login", "");
-                    String senhaSalva = temUser.getString("senha", "");
+                    SharedPreferences SharedCheckCurrentUser = getSharedPreferences("USER_MODEL", Activity.MODE_PRIVATE);
+                    String savedLogin = SharedCheckCurrentUser.getString("LOGIN", "");
+                    String savedPassword = SharedCheckCurrentUser.getString("PASSWORD", "");
 
-                    if ((loginSalvo != null) && (senhaSalva != null)) {
+                    if ((savedLogin != null) && (savedPassword != null)) {
                         //Recuperando da tela
-                        String senha = editTextPassword.getText().toString();
-                        String login = editTextUser.getText().toString();
+                        String currentPassword = editTextPassword.getText().toString();
+                        String currentLogin = editTextUser.getText().toString();
 
                         //Comparando
-                        if ((loginSalvo.compareTo(login) == 0)
-                                && (senhaSalva.compareTo(senha) == 0)) {
-
-                            User user = constructorUser();
-                            fillListOfContacts(user);
+                        if ((savedLogin.compareTo(currentLogin) == 0) && (savedPassword.compareTo(currentPassword) == 0)) {
+                            User currentUser = constructorUser();
+                            fillListOfContacts(currentUser);
                             //Abrindo a Lista de Contatos
                             Intent intent = new Intent(CheckLogin.this, ListOfContacts_Activity.class);
-                            intent.putExtra("usuario", user);
+                            intent.putExtra("USER_MODEL", currentUser);
                             startActivity(intent);
-
-
                         } else {
                             Toast.makeText(CheckLogin.this, "Login e Senha Incorretos", Toast.LENGTH_LONG).show();
-
                         }
-
                     } else {
                         Toast.makeText(CheckLogin.this, "Login e Senha nulos", Toast.LENGTH_LONG).show();
-
                     }
-
                 }
             });
 
@@ -131,14 +122,11 @@ public class CheckLogin extends AppCompatActivity {
             buttonNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(CheckLogin.this, NovoUsuario_Activity.class);
+                    Intent intent = new Intent(CheckLogin.this, NewUser_Activity.class);
                     startActivity(intent);
                 }
             });
-
         }
-
-
     }
 
     private User constructorUser() {

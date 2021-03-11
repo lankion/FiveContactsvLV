@@ -265,7 +265,7 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
         // Checagem de o Item selecionado é o do perfil
         if (item.getItemId() == R.id.anvPerfil) {
             //Abertura da Tela MudarDadosUsario
-            Intent intent = new Intent(this, PerfilUsuario_Activity.class);
+            Intent intent = new Intent(this, ProfileUser_Activity.class);
             intent.putExtra("usuario", user);
             startActivityForResult(intent, 1111);
 

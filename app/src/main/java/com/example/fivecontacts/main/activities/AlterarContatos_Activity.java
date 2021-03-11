@@ -174,7 +174,7 @@ public class AlterarContatos_Activity extends AppCompatActivity implements Botto
         // Checagem de o Item selecionado é o do perfil
         if (item.getItemId() == R.id.anvPerfil) {
             //Abertura da Tela MudarDadosUsario
-            Intent intent = new Intent(this, PerfilUsuario_Activity.class);
+            Intent intent = new Intent(this, ProfileUser_Activity.class);
             intent.putExtra("usuario", user);
             startActivity(intent);
 

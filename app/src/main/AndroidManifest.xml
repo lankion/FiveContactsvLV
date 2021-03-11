@@ -15,10 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.activities.PerfilUsuario_Activity">
+        <activity android:name=".main.activities.ProfileUser_Activity">
             android:screenOrientation="portrait"
         </activity>
-        <activity android:name=".main.activities.NovoUsuario_Activity">
+        <activity android:name=".main.activities.NewUser_Activity">
             android:screenOrientation="portrait"
         </activity>
         <activity android:name=".main.activities.AlterarContatos_Activity">
