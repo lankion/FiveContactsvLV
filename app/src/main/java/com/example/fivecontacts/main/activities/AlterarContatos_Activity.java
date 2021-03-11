@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.fivecontacts.R;
-import com.example.fivecontacts.main.model.Contato;
+import com.example.fivecontacts.main.model.Contact;
 import com.example.fivecontacts.main.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -73,7 +73,7 @@ public class AlterarContatos_Activity extends AppCompatActivity implements Botto
         });
     }
 
-    public void salvarContato (Contato w){
+    public void salvarContato (Contact w){
         SharedPreferences salvaContatos =
                 getSharedPreferences("contatos",Activity.MODE_PRIVATE);
 
@@ -92,7 +92,7 @@ public class AlterarContatos_Activity extends AppCompatActivity implements Botto
             e.printStackTrace();
         }
         editor.commit();
-        user.getContatos().add(w);
+        user.getContacts().add(w);
     }
 
 
@@ -154,11 +154,11 @@ public class AlterarContatos_Activity extends AppCompatActivity implements Botto
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Contato c= new Contato();
-                        c.setNome(nomesContatos[i]);
-                        c.setNumero("tel:+"+telefonesContatos[i]);
+                        Contact c= new Contact();
+                        c.setName(nomesContatos[i]);
+                        c.setNumber("tel:+"+telefonesContatos[i]);
                         salvarContato(c);
-                        Intent intent = new Intent(getApplicationContext(), ListaDeContatos_Activity.class);
+                        Intent intent = new Intent(getApplicationContext(), ListOfContacts_Activity.class);
                         intent.putExtra("usuario", user);
                         startActivity(intent);
                         finish();
@@ -182,7 +182,7 @@ public class AlterarContatos_Activity extends AppCompatActivity implements Botto
         // Checagem de o Item selecionado é o do perfil
         if (item.getItemId() == R.id.anvLigar) {
             //Abertura da Tela Mudar COntatos
-            Intent intent = new Intent(this, ListaDeContatos_Activity.class);
+            Intent intent = new Intent(this, ListOfContacts_Activity.class);
             intent.putExtra("usuario", user);
             startActivity(intent);
 

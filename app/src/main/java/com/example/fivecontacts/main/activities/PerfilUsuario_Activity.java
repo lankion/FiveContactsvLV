@@ -7,9 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,26 +52,26 @@ public class PerfilUsuario_Activity extends AppCompatActivity implements BottomN
             if (params != null) {
                 //Recuperando o Usuario
                 user = (User) params.getSerializable("usuario");
-                setTitle("Alterar dados de "+user.getNome());
+                setTitle("Alterar dados de "+user.getName());
 
             }
         }
         if (user != null) {
                    edUser.setText(user.getLogin());
-                    edPass.setText(user.getSenha());
-                    edNome.setText(user.getNome());
+                    edPass.setText(user.getPassword());
+                    edNome.setText(user.getName());
                     edEmail.setText(user.getEmail());
-                    swLogado.setChecked(user.isManterLogado());
+                    swLogado.setChecked(user.isStayedConnected());
         }
 
         btModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.setNome(edNome.getText().toString());
+                user.setName(edNome.getText().toString());
                 user.setLogin(edUser.getText().toString());
-                user.setSenha(edPass.getText().toString());
+                user.setPassword(edPass.getText().toString());
                 user.setEmail(edEmail.getText().toString());
-                user.setManterLogado(swLogado.isChecked());
+                user.setStayedConnected(swLogado.isChecked());
                 salvarModificacoes(user);
             }
         });
@@ -92,7 +90,7 @@ public class PerfilUsuario_Activity extends AppCompatActivity implements BottomN
         // Checagem de o Item selecionado é Ligar
         if (item.getItemId() == R.id.anvLigar) {
             //Abertura da Tela Mudar COntatos
-            Intent intent = new Intent(this, ListaDeContatos_Activity.class);
+            Intent intent = new Intent(this, ListOfContacts_Activity.class);
             intent.putExtra("usuario", user);
             startActivity(intent);
 
@@ -104,13 +102,13 @@ public class PerfilUsuario_Activity extends AppCompatActivity implements BottomN
         SharedPreferences salvaUser= getSharedPreferences("usuarioPadrao", Activity.MODE_PRIVATE);
         SharedPreferences.Editor escritor= salvaUser.edit();
 
-        escritor.putString("nome",user.getNome());
-        escritor.putString("senha",user.getSenha());
+        escritor.putString("nome",user.getName());
+        escritor.putString("senha",user.getPassword());
         escritor.putString("login",user.getLogin());
 
         //Escrever no SharedPreferences
         escritor.putString("email",user.getEmail());
-        escritor.putBoolean("manterLogado",user.isManterLogado());
+        escritor.putBoolean("manterLogado",user.isStayedConnected());
 
 
         //Falta Salvar o E-mail

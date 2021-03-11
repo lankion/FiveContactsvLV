@@ -24,10 +24,10 @@
         <activity android:name=".main.activities.AlterarContatos_Activity">
             android:screenOrientation="portrait"
         </activity>
-        <activity android:name=".main.activities.ListaDeContatos_Activity">
+        <activity android:name=".main.activities.ListOfContacts_Activity">
             android:screenOrientation="portrait"
         </activity>
-        <activity android:name=".main.activities.ChecagemLogin_Activity">
+        <activity android:name=".main.activities.CheckLogin">
             android:screenOrientation="portrait"
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

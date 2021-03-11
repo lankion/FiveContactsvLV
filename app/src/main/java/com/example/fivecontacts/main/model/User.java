@@ -1,48 +1,36 @@
 package com.example.fivecontacts.main.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    String nome;
+    String name;
     String login;
-    String senha;
+    String password;
     String email;
-    boolean manterLogado=false;
-    boolean tema_escuro=false;
-    ArrayList<Contato> contatos;
+    boolean stayedConnected = false;
+    boolean darkTheme = false;
+    ArrayList<Contact> contacts;
 
-
-    public boolean isTema_escuro() {
-        return tema_escuro;
-    }
-
-    public void setTema_escuro(boolean tema_escuro) {
-        this.tema_escuro = tema_escuro;
-    }
-
-
-
-    public User(String nome, String login, String password, String email, boolean manterLogado) {
-        this.nome = nome;
-        this.login=login;
-        this.senha=password;
-        this.email=email;
-        this.manterLogado=manterLogado;
-        this.contatos = new ArrayList<Contato>();
+    public User(String name, String login, String password, String email, boolean stayedConnected, boolean darkTheme) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.stayedConnected = stayedConnected;
+        this.contacts = new ArrayList<Contact>();
     }
 
     public User() {
-        this.contatos = new ArrayList<Contato>();
+        this.contacts = new ArrayList<Contact>();
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -52,12 +40,13 @@ public class User implements Serializable {
     public void setLogin(String login) {
         this.login = login;
     }
-    public String getSenha() {
-        return senha;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -68,19 +57,28 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isManterLogado() {
-        return manterLogado;
+    public boolean isStayedConnected() {
+        return stayedConnected;
     }
 
-    public void setManterLogado(boolean manterLogado) {
-        this.manterLogado = manterLogado;
-    }
-    public ArrayList<Contato> getContatos() {
-        return contatos;
+    public void setStayedConnected(boolean stayedConnected) {
+        this.stayedConnected = stayedConnected;
     }
 
-    public void setContatos(ArrayList<Contato> contatos) {
-        this.contatos = contatos;
+    public boolean isDarkTheme() {
+        return darkTheme;
+    }
+
+    public void setDarkTheme(boolean darkTheme) {
+        this.darkTheme = darkTheme;
+    }
+
+    public ArrayList<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
     }
 
 }
