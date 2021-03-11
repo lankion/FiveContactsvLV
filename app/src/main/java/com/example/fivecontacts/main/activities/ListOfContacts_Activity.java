@@ -37,44 +37,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ListOfContacts_Activity extends AppCompatActivity implements WarringAboutPermissions.NoticeDialogListener, BottomNavigationView.OnNavigationItemSelectedListener {
+    ListView listViewContact;
+    BottomNavigationView bottomNavigationViewContact;
+    User currentUser;
+    String numberCall;
 
-    ListView lv;
-    BottomNavigationView bnv;
-    User user;
-
-    String numeroCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_de_contatos);
-
-        bnv = findViewById(R.id.bnv);
-        bnv.setOnNavigationItemSelectedListener(this);
-        bnv.setSelectedItemId(R.id.anvLigar);
-
-        lv = findViewById(R.id.listView1);
+        bottomNavigationViewContact = findViewById(R.id.bnv);
+        bottomNavigationViewContact.setOnNavigationItemSelectedListener(this);
+        bottomNavigationViewContact.setSelectedItemId(R.id.anvLigar);
+        listViewContact = findViewById(R.id.listView1);
 
         //Dados da Intent Anterior
-        Intent quemChamou = this.getIntent();
-        if (quemChamou != null) {
-            Bundle params = quemChamou.getExtras();
-            if (params != null) {
+        Intent whoIsCalling = this.getIntent();
+        if (whoIsCalling != null) {
+            Bundle bundleData = whoIsCalling.getExtras();
+            if (bundleData != null) {
                 //Recuperando o Usuario
-                user = (User) params.getSerializable("usuario");
-                if (user != null) {
-                    setTitle("Contatos de Emergência de "+user.getName());
-                  //  preencherListView(user); //Montagem do ListView
-                    preencherListViewImagens(user);
-                  //  if (user.isTema_escuro()){
-                    //    ((ConstraintLayout) (lv.getParent())).setBackgroundColor(Color.BLACK);
-                    //}
+                currentUser = (User) bundleData.getSerializable("USER_MODEL");
+                if (currentUser != null) {
+                    setTitle("Contatos de Emergência de " + currentUser.getName());
+                    //  preencherListView(user); //Montagem do ListView
+                    fillListViewImages(currentUser);
                 }
             }
         }
 
     }
 
-    protected void atualizarListaDeContatos(User user){
+    protected void updateListOfContacts(User user) {
         SharedPreferences recuperarContatos = getSharedPreferences("contatos", Activity.MODE_PRIVATE);
 
         int num = recuperarContatos.getInt("numContatos", 0);
@@ -104,38 +98,40 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
 
 
         }
-        Log.v("PDM3","contatos:"+ contacts.size());
+        Log.v("PDM3", "contatos:" + contacts.size());
         user.setContacts(contacts);
     }
-    protected  void preencherListViewImagens(User user){
+
+    protected void fillListViewImages(User user) {
 
         final ArrayList<Contact> contacts = user.getContacts();
         Collections.sort(contacts);
         if (contacts != null) {
             String[] contatosNomes, contatosAbrevs;
             contatosNomes = new String[contacts.size()];
-            contatosAbrevs= new String[contacts.size()];
+            contatosAbrevs = new String[contacts.size()];
             Contact c;
             for (int j = 0; j < contacts.size(); j++) {
                 contatosAbrevs[j] = contacts.get(j).getName().substring(0, 1);
                 contatosNomes[j] = contacts.get(j).getName();
             }
-            ArrayList<Map<String,Object>> itemDataList = new ArrayList<Map<String,Object>>();;
+            ArrayList<Map<String, Object>> itemDataList = new ArrayList<Map<String, Object>>();
+            ;
 
-            for(int i = 0; i < contacts.size(); i++) {
-                Map<String,Object> listItemMap = new HashMap<String,Object>();
+            for (int i = 0; i < contacts.size(); i++) {
+                Map<String, Object> listItemMap = new HashMap<String, Object>();
                 listItemMap.put("imageId", R.drawable.ic_action_ligar_list);
                 listItemMap.put("contato", contatosNomes[i]);
-                listItemMap.put("abrevs",contatosAbrevs[i]);
+                listItemMap.put("abrevs", contatosAbrevs[i]);
                 itemDataList.add(listItemMap);
             }
-            SimpleAdapter simpleAdapter = new SimpleAdapter(this,itemDataList,R.layout.list_view_layout_imagem,
-                    new String[]{"imageId","contato","abrevs"},new int[]{R.id.userImage, R.id.userTitle,R.id.userAbrev});
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this, itemDataList, R.layout.list_view_layout_imagem,
+                    new String[]{"imageId", "contato", "abrevs"}, new int[]{R.id.userImage, R.id.userTitle, R.id.userAbrev});
 
-            lv.setAdapter(simpleAdapter);
+            listViewContact.setAdapter(simpleAdapter);
 
 
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listViewContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -144,8 +140,8 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
                     if (checarPermissaoPhone_SMD(contacts.get(i).getNumber())) {
 
                         Uri uri = Uri.parse(contacts.get(i).getNumber());
-                         //  Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
-                            Intent itLigar = new Intent(Intent.ACTION_CALL, uri);
+                        //  Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
+                        Intent itLigar = new Intent(Intent.ACTION_CALL, uri);
                         startActivity(itLigar);
                     }
 
@@ -157,6 +153,7 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
 
 
     }
+
     protected void preencherListView(User user) {
 
         final ArrayList<Contact> contacts = user.getContacts();
@@ -173,10 +170,10 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
 
             adaptador = new ArrayAdapter<String>(this, R.layout.list_view_layout, nomesSP);
 
-            lv.setAdapter(adaptador);
+            listViewContact.setAdapter(adaptador);
 
 
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listViewContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -184,7 +181,7 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
                     if (checarPermissaoPhone_SMD(contacts.get(i).getNumber())) {
 
                         Uri uri = Uri.parse(contacts.get(i).getNumber());
-                      //   Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
+                        //   Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
                         Intent itLigar = new Intent(Intent.ACTION_CALL, uri);
                         startActivity(itLigar);
                     }
@@ -195,78 +192,79 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
         }//fim do IF do tamanho de contatos
     }
 
-    protected boolean checarPermissaoPhone_SMD(String numero){
+    protected boolean checarPermissaoPhone_SMD(String numero) {
 
-        numeroCall=numero;
-      if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
-      == PackageManager.PERMISSION_GRANTED){
+        numberCall = numero;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                == PackageManager.PERMISSION_GRANTED) {
 
-          Log.v ("SMD","Tenho permissão");
+            Log.v("SMD", "Tenho permissão");
 
-          return true;
+            return true;
 
-      } else {
+        } else {
 
-            if ( shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)){
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
 
-                Log.v ("SMD","Primeira Vez");
+                Log.v("SMD", "Primeira Vez");
 
 
                 String mensagem = "Nossa aplicação precisa acessar o telefone para discagem automática. Uma janela de permissão será solicitada";
                 String titulo = "Permissão de acesso a chamadas";
-                int codigo =1;
-                WarringAboutPermissions mensagemPermissao = new WarringAboutPermissions(mensagem,titulo, codigo);
+                int codigo = 1;
+                WarringAboutPermissions mensagemPermissao = new WarringAboutPermissions(mensagem, titulo, codigo);
 
-                mensagemPermissao.onAttach ((Context)this);
+                mensagemPermissao.onAttach((Context) this);
                 mensagemPermissao.show(getSupportFragmentManager(), "primeiravez2");
 
-            }else{
+            } else {
                 String mensagem = "Nossa aplicação precisa acessar o telefone para discagem automática. Uma janela de permissão será solicitada";
                 String titulo = "Permissão de acesso a chamadas II";
-                int codigo =1;
+                int codigo = 1;
 
-                WarringAboutPermissions mensagemPermissao = new WarringAboutPermissions(mensagem,titulo, codigo);
-                mensagemPermissao.onAttach ((Context)this);
+                WarringAboutPermissions mensagemPermissao = new WarringAboutPermissions(mensagem, titulo, codigo);
+                mensagemPermissao.onAttach((Context) this);
                 mensagemPermissao.show(getSupportFragmentManager(), "segundavez2");
-                Log.v ("SMD","Outra Vez");
+                Log.v("SMD", "Outra Vez");
 
             }
-      }
+        }
         return false;
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                            int[] grantResults) {
+                                           int[] grantResults) {
         switch (requestCode) {
             case 2222:
-               if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                   Toast.makeText(this, "VALEU", Toast.LENGTH_LONG).show();
-                   Uri uri = Uri.parse(numeroCall);
-                   //   Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
-                   Intent itLigar = new Intent(Intent.ACTION_CALL, uri);
-                   startActivity(itLigar);
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "VALEU", Toast.LENGTH_LONG).show();
+                    Uri uri = Uri.parse(numberCall);
+                    //   Intent itLigar = new Intent(Intent.ACTION_DIAL, uri);
+                    Intent itLigar = new Intent(Intent.ACTION_CALL, uri);
+                    startActivity(itLigar);
 
-               }else{
-                   Toast.makeText(this, "SEU FELA!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "SEU FELA!", Toast.LENGTH_LONG).show();
 
-                   String mensagem= "Seu aplicativo pode ligar diretamente, mas sem permissão não funciona. Se você marcou não perguntar mais, você deve ir na tela de configurações para mudar a instalação ou reinstalar o aplicativo  ";
-                   String titulo= "Porque precisamos telefonar?";
-                   WarringAboutPermissions mensagemPermisso = new WarringAboutPermissions(mensagem,titulo,2);
-                   mensagemPermisso.onAttach((Context)this);
-                   mensagemPermisso.show(getSupportFragmentManager(), "segundavez");
-               }
+                    String mensagem = "Seu aplicativo pode ligar diretamente, mas sem permissão não funciona. Se você marcou não perguntar mais, você deve ir na tela de configurações para mudar a instalação ou reinstalar o aplicativo  ";
+                    String titulo = "Porque precisamos telefonar?";
+                    WarringAboutPermissions mensagemPermisso = new WarringAboutPermissions(mensagem, titulo, 2);
+                    mensagemPermisso.onAttach((Context) this);
+                    mensagemPermisso.show(getSupportFragmentManager(), "segundavez");
+                }
                 break;
         }
     }
-            @Override
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Checagem de o Item selecionado é o do perfil
         if (item.getItemId() == R.id.anvPerfil) {
             //Abertura da Tela MudarDadosUsario
             Intent intent = new Intent(this, ProfileUser_Activity.class);
-            intent.putExtra("usuario", user);
+            intent.putExtra("usuario", currentUser);
             startActivityForResult(intent, 1111);
 
         }
@@ -274,7 +272,7 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
         if (item.getItemId() == R.id.anvMudar) {
             //Abertura da Tela Mudar COntatos
             Intent intent = new Intent(this, AlterarContatos_Activity.class);
-            intent.putExtra("usuario", user);
+            intent.putExtra("usuario", currentUser);
             startActivityForResult(intent, 1112);
 
         }
@@ -286,44 +284,44 @@ public class ListOfContacts_Activity extends AppCompatActivity implements Warrin
         //Caso seja um Voltar ou Sucesso selecionar o item Ligar
 
         if (requestCode == 1111) {//Retorno de Mudar Perfil
-            bnv.setSelectedItemId(R.id.anvLigar);
-            user=atualizarUser();
-            setTitle("Contatos de Emergência de "+user.getName());
-            atualizarListaDeContatos(user);
-           // preencherListViewImagens(user);
-            preencherListView(user); //Montagem do ListView
+            bottomNavigationViewContact.setSelectedItemId(R.id.anvLigar);
+            currentUser = atualizarUser();
+            setTitle("Contatos de Emergência de " + currentUser.getName());
+            updateListOfContacts(currentUser);
+            // preencherListViewImagens(user);
+            preencherListView(currentUser); //Montagem do ListView
         }
 
         if (requestCode == 1112) {//Retorno de Mudar Contatos
-            bnv.setSelectedItemId(R.id.anvLigar);
-            atualizarListaDeContatos(user);
+            bottomNavigationViewContact.setSelectedItemId(R.id.anvLigar);
+            updateListOfContacts(currentUser);
             //preencherListViewImagens(user);
-            preencherListView(user); //Montagem do ListView
+            preencherListView(currentUser); //Montagem do ListView
         }
-
 
 
     }
 
     private User atualizarUser() {
         User user = null;
-        SharedPreferences temUser= getSharedPreferences("usuarioPadrao", Activity.MODE_PRIVATE);
-        String loginSalvo = temUser.getString("login","");
-        String senhaSalva = temUser.getString("senha","");
-        String nomeSalvo = temUser.getString("nome","");
-        String emailSalvo = temUser.getString("email","");
-        boolean manterLogado=temUser.getBoolean("manterLogado",false);
+        SharedPreferences temUser = getSharedPreferences("usuarioPadrao", Activity.MODE_PRIVATE);
+        String loginSalvo = temUser.getString("login", "");
+        String senhaSalva = temUser.getString("senha", "");
+        String nomeSalvo = temUser.getString("nome", "");
+        String emailSalvo = temUser.getString("email", "");
+        boolean manterLogado = temUser.getBoolean("manterLogado", false);
+        boolean updateTheme = temUser.getBoolean("DARK_THEME", false);
 
-        user=new User(nomeSalvo,loginSalvo,senhaSalva,emailSalvo,manterLogado);
+        user = new User(nomeSalvo, loginSalvo, senhaSalva, emailSalvo, manterLogado, updateTheme);
         return user;
     }
 
     @Override
     public void onDialogPositiveClick(int codigo) {
 
-        if (codigo==1){
-          String[] permissions ={Manifest.permission.CALL_PHONE};
-          requestPermissions(permissions, 2222);
+        if (codigo == 1) {
+            String[] permissions = {Manifest.permission.CALL_PHONE};
+            requestPermissions(permissions, 2222);
 
         }
 

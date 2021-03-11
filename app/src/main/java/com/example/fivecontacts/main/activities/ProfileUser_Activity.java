@@ -23,7 +23,8 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
     EditText editTextCurrentPassword;
     EditText editTextCurrentName;
     EditText editTextCurrentEmail;
-    Switch switchCurrentLoging;
+    Switch switchCurrentLogging;
+    Switch switchCurrentTheme;
     Button buttonModify;
     BottomNavigationView bottomNavigationViewChoise;
     User currentUser;
@@ -40,7 +41,8 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
         editTextCurrentPassword =findViewById(R.id.edt_Pass2);
         editTextCurrentName =findViewById(R.id.edtNome);
         editTextCurrentEmail =findViewById(R.id.edEmail);
-        switchCurrentLoging =findViewById(R.id.swLogado);
+        switchCurrentLogging =findViewById(R.id.swLogado);
+        switchCurrentTheme = findViewById(R.id.swTema2);
 
         Intent WhoIsCalling = this.getIntent();
         if (WhoIsCalling != null) {
@@ -56,7 +58,8 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
             editTextCurrentPassword.setText(currentUser.getPassword());
             editTextCurrentName.setText(currentUser.getName());
             editTextCurrentEmail.setText(currentUser.getEmail());
-            switchCurrentLoging.setChecked(currentUser.isStayedConnected());
+            switchCurrentLogging.setChecked(currentUser.isStayedConnected());
+            switchCurrentTheme.setChecked(currentUser.isDarkTheme());
         }
 
         buttonModify.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +69,8 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
                 currentUser.setLogin(editTextCurrentUser.getText().toString());
                 currentUser.setPassword(editTextCurrentPassword.getText().toString());
                 currentUser.setEmail(editTextCurrentEmail.getText().toString());
-                currentUser.setStayedConnected(switchCurrentLoging.isChecked());
+                currentUser.setStayedConnected(switchCurrentLogging.isChecked());
+                currentUser.setDarkTheme(switchCurrentTheme.isChecked());
                 saveModifications(currentUser);
             }
         });
@@ -99,6 +103,7 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
         SharedWritingData.putString("LOGIN",user.getLogin());
         SharedWritingData.putString("EMAIL",user.getEmail());
         SharedWritingData.putBoolean("STAY_CONNECTED",user.isStayedConnected());
+        SharedWritingData.putBoolean("DARK_THEME",user.isDarkTheme());
         SharedWritingData.commit();
         Toast.makeText(ProfileUser_Activity.this,"Modificações Salvas",Toast.LENGTH_LONG).show() ;
         finish();
