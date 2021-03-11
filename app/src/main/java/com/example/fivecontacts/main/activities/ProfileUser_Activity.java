@@ -81,7 +81,7 @@ public class ProfileUser_Activity extends AppCompatActivity implements BottomNav
         // Checagem de o Item selecionado é a de mudanças de contatos
         if (item.getItemId() == R.id.anvMudar) {
             //Abertura da Tela de Perfil
-            Intent intent = new Intent(this, AlterarContatos_Activity.class);
+            Intent intent = new Intent(this, UpdateContct_Activity.class);
             intent.putExtra("USER_MODEL", currentUser);
             startActivity(intent);
         }

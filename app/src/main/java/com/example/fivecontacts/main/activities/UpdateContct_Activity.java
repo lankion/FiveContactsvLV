@@ -31,7 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class AlterarContatos_Activity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class UpdateContct_Activity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     Boolean primeiraVezUser=true;
     EditText edtNome;

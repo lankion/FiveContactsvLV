@@ -159,7 +159,7 @@ public class CheckLogin extends AppCompatActivity {
         Contact currentContacts;
 
         for (int i = 1; i <= numberOfContacts; i++) {
-            String objSel = SharedRecoverContacts.getString("CONTACT" + i, "");
+            String objSel = SharedRecoverContacts.getString("CONTACTS" + i, "");
             if (objSel.compareTo("") != 0) {
                 try {
                     ByteArrayInputStream byteArrayInputStreamContact =

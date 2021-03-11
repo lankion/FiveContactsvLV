@@ -114,7 +114,7 @@ public class NewUser_Activity extends AppCompatActivity {
                 SharedWritingData.commit();
                 User newUser = new User(newName, newLogin, newPassword, newEmail, stayConnected, darkTheme);
 
-                Intent intent = new Intent(NewUser_Activity.this, AlterarContatos_Activity.class);
+                Intent intent = new Intent(NewUser_Activity.this, UpdateContct_Activity.class);
                 intent.putExtra("USER_MODEL", newUser);
                 startActivity(intent);
                 finish();
